@@ -1,20 +1,18 @@
-import React, { useState } from "react";
-import axios from "axios";
+// src/App.js
+import React from 'react';
+import WhoisScanner from './components/WhoisScanner';
+import NmapScanner from './components/NmapScanner';
+import DnsreconScanner from './components/DnsreconScanner';
+import WhatwebScanner from './components/WhatwebScanner';
 
 function App() {
-  const [domain, setDomain] = useState("");
-  const [whois, setWhois] = useState("");
-
-  const fetchWhois = async () => {
-    const res = await axios.get(`https://backenddomain/whois?domain=${domain}`);
-    setWhois(res.data.whois);
-  };
-
   return (
-    <div>
-      <input value={domain} onChange={(e) => setDomain(e.target.value)} />
-      <button onClick={fetchWhois}>Whois Lookup</button>
-      <pre>{whois}</pre>
+    <div className="App">
+      <h1>Web Scanner Tool</h1>
+      <WhoisScanner />
+      <NmapScanner />
+      <DnsreconScanner />
+      <WhatwebScanner />
     </div>
   );
 }
