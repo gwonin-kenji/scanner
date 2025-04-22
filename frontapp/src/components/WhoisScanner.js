@@ -8,55 +8,48 @@ function WhoisScanner() {
   const [domain, setDomain] = useState('');
   const [result, setResult] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
 
   const handleScan = async () => {
-    if (!domain.trim()) {
-      setError('ドメインを入力してください。');
-      return;
-    }
-
+    if (!domain) return;
     setLoading(true);
-    setError('');
-    setResult('');
-
     try {
-      const response = await axios.get(`${API_BASE_URL}/whois?domain=${domain}`);
-      setResult(response.data.result);
-    } catch (err) {
-      setError('スキャン中にエラーが発生しました。');
+      const response = await axios.get(
+        `${API_BASE_URL}/whois?domain=${domain}`
+      );
+      setResult(response.data.result || JSON.stringify(response.data));
+    } catch (error) {
+      setResult('エラーが発生しました');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-xl mx-auto my-6 p-6 border rounded-2xl shadow-lg bg-white">
-      <h2 className="text-2xl font-semibold mb-4 text-gray-800">Whois スキャナ</h2>
-
-      <div className="flex flex-col sm:flex-row gap-3 mb-4">
+    <div className="bg-white rounded-2xl shadow-md p-6">
+      <h2 className="text-xl font-semibold mb-4">Whois Scanner</h2>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
         <input
           type="text"
+          placeholder="例: google.com"
           value={domain}
           onChange={(e) => setDomain(e.target.value)}
-          placeholder="例: google.com"
-          className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          className="flex-1 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button
           onClick={handleScan}
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+          className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
         >
           スキャン
         </button>
       </div>
 
-      {loading && <p className="text-blue-500">スキャン中...</p>}
-      {error && <p className="text-red-500">{error}</p>}
-      {result && (
-        <div className="whitespace-pre-wrap bg-gray-100 p-4 mt-4 rounded-md border overflow-auto max-h-96">
+      {loading ? (
+        <p className="mt-4 text-sm text-gray-500">スキャン中...</p>
+      ) : result ? (
+        <pre className="mt-4 bg-gray-100 p-4 rounded text-sm overflow-auto max-h-96 whitespace-pre-wrap">
           {result}
-        </div>
-      )}
+        </pre>
+      ) : null}
     </div>
   );
 }
