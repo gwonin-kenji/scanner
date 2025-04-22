@@ -9,7 +9,7 @@ import WhatwebScanner from './components/WhatwebScanner';
 function App() {
   return (
     <Layout>
-      <div className="space-y-10">
+      <div className="space-y-8">
         <WhoisScanner />
         <NmapScanner />
         <DnsreconScanner />
