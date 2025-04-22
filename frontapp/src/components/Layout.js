@@ -1,14 +1,13 @@
+// src/components/Layout.js
 import React from 'react';
 import Header from './Header';
 import Footer from './Footer';
 
 const Layout = ({ children }) => {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100 font-sans text-gray-800">
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="flex-grow container mx-auto px-4 py-6">
-        {children}
-      </main>
+      <main className="flex-grow">{children}</main>
       <Footer />
     </div>
   );
